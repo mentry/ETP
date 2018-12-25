@@ -21,7 +21,7 @@ namespace ETP.Controllers
         private async Task<string> ValidateEmail(string emailToValidate)
         {
             string azureBaseUrl = "https://fa01-etp-test.azurewebsites.net/api/FunctionApp";
-            string urlQueryStringParams = "?code=IuvfwR1NJ1gQHTJbJsDn1xmGS3BMg99DIcrX9crVl0WGBjurKwtoYg==&name={emailToValidate}";
+            string urlQueryStringParams = "?code=IuvfwR1NJ1gQHTJbJsDn1xmGS3BMg99DIcrX9crVl0WGBjurKwtoYg==&name=" + emailToValidate;
 
             using (HttpClient client = new HttpClient())
             {
