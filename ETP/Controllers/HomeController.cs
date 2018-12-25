@@ -53,8 +53,8 @@ namespace ETP.Controllers
 
         public IActionResult Travel()
         {
-            ViewData["Message"] = "Your contact page.";
             Task<String> ar =  ValidateEmail("Hans IB");
+            ViewData["Message"] = "Your contact page." + ar.Result;
             return View();
         }
 
