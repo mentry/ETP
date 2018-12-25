@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ETP.Models;
+using System.Net.Http;
+using System.Text;
 
 namespace ETP.Controllers
 {
@@ -13,6 +15,31 @@ namespace ETP.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        /*ff*/
+        private async Task<string> ValidateEmail(string emailToValidate)
+        {
+            string azureBaseUrl = "https://fa01-etp-test.azurewebsites.net/api/FunctionApp";
+            string urlQueryStringParams = "?code=IuvfwR1NJ1gQHTJbJsDn1xmGS3BMg99DIcrX9crVl0WGBjurKwtoYg==&name={emailToValidate}";
+
+            using (HttpClient client = new HttpClient())
+            {
+                using (HttpResponseMessage res = await client.GetAsync(
+                 $"{azureBaseUrl}{urlQueryStringParams}"))
+                {
+                    using (HttpContent content = res.Content)
+                    {
+                        string data = await content.ReadAsStringAsync();
+                        if (data != null)
+                        {
+                            return data; 
+                        }
+                        else
+                            return null;
+                    }
+                }
+            }
         }
 
         /*  Travel pages  */
@@ -27,7 +54,7 @@ namespace ETP.Controllers
         public IActionResult Travel()
         {
             ViewData["Message"] = "Your contact page.";
-
+            Task<String> ar =  ValidateEmail("Hans IB");
             return View();
         }
 
