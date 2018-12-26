@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ETP", "ETP\ETP.csproj", "{671B3406-732A-40DB-8E70-DA9B04FF27F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ETP.WebApp", "ETP\ETP.WebApp.csproj", "{671B3406-732A-40DB-8E70-DA9B04FF27F2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ETP.AzureFunctions", "ETP.AzureFunctions\ETP.AzureFunctions.csproj", "{263BF05A-FE80-4044-95D8-519959E53A1E}"
 EndProject
