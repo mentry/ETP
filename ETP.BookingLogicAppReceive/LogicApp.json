@@ -12,7 +12,7 @@
     },
     "logicAppLocation": {
       "type": "string",
-      "defaultValue": "[resourceGroup().location]",
+      "defaultValue": "northeurope",
       "allowedValues": [
         "[resourceGroup().location]",
         "eastasia",
@@ -44,6 +44,27 @@
         "description": "Location of the Logic App."
       }
     },
+    "azureblob_1_Connection_Name": {
+      "type": "string",
+      "defaultValue": "azureblob"
+    },
+    "azureblob_1_Connection_DisplayName": {
+      "type": "string",
+      "defaultValue": "CreateMassage"
+    },
+    "azureblob_1_accountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the storage account the connector should use."
+      },
+      "defaultValue": "fa01etptest"
+    },
+    "azureblob_1_accessKey": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Specify a valid primary/secondary storage account access key."
+      }
+    },
     "servicebus_1_Connection_Name": {
       "type": "string",
       "defaultValue": "servicebus"
@@ -73,35 +94,28 @@
         "definition": {
           "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
           "actions": {
-            "Send_message": {
+            "Create_blob": {
               "type": "ApiConnection",
               "inputs": {
                 "host": {
                   "connection": {
-                    "name": "@parameters('$connections')['servicebus']['connectionId']"
+                    "name": "@parameters('$connections')['azureblob']['connectionId']"
                   }
                 },
                 "method": "post",
-                "body": {
-                  "ContentData": "@{base64(triggerBody())}"
-                },
-                "path": "/@{encodeURIComponent(encodeURIComponent('queue1-sb-etp-test'))}/messages",
+                "body": "@base64ToBinary(triggerBody()?['ContentData'])",
+                "path": "/datasets/default/files",
                 "queries": {
-                  "systemProperties": "None"
+                  "folderPath": null,
+                  "name": "@{triggerBody()?['SessionId']}.tx",
+                  "queryParametersSingleEncoded": true
                 }
               },
-              "runAfter": {}
-            },
-            "Response": {
-              "type": "Response",
-              "kind": "http",
-              "inputs": {
-                "statusCode": 200
-              },
-              "runAfter": {
-                "Send_message": [
-                  "Succeeded"
-                ]
+              "runAfter": {},
+              "runtimeConfiguration": {
+                "contentTransfer": {
+                  "transferMode": "Chunked"
+                }
               }
             }
           },
@@ -112,45 +126,23 @@
             }
           },
           "triggers": {
-            "manual": {
-              "type": "Request",
-              "kind": "Http",
+            "When_a_message_is_received_in_a_queue_(auto-complete)": {
+              "type": "ApiConnection",
               "inputs": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "AddressOne": {
-                      "type": "string"
-                    },
-                    "AddressTwo": {
-                      "type": "string"
-                    },
-                    "City": {
-                      "type": "string"
-                    },
-                    "County": {
-                      "type": "string"
-                    },
-                    "State": {
-                      "type": "string"
-                    },
-                    "Province": {
-                      "type": "string"
-                    },
-                    "CountyStateProvince": {
-                      "type": "string"
-                    },
-                    "Country": {
-                      "type": "string"
-                    },
-                    "PostalCode": {
-                      "type": "string"
-                    },
-                    "ZIPCode": {
-                      "type": "string"
-                    }
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['servicebus_1']['connectionId']"
                   }
+                },
+                "method": "get",
+                "path": "/@{encodeURIComponent(encodeURIComponent('queue1-sb-etp-test'))}/messages/head",
+                "queries": {
+                  "queueType": "Main"
                 }
+              },
+              "recurrence": {
+                "frequency": "Minute",
+                "interval": 3
               }
             }
           },
@@ -160,18 +152,40 @@
         "parameters": {
           "$connections": {
             "value": {
-              "servicebus": {
+              "servicebus_1": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'servicebus')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
                 "connectionName": "[parameters('servicebus_1_Connection_Name')]"
+              },
+              "azureblob": {
+                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azureblob')]",
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azureblob_1_Connection_Name'))]",
+                "connectionName": "[parameters('azureblob_1_Connection_Name')]"
               }
             }
           }
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]"
+        "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
+        "[resourceId('Microsoft.Web/connections', parameters('azureblob_1_Connection_Name'))]"
       ]
+    },
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2016-06-01",
+      "name": "[parameters('azureblob_1_Connection_Name')]",
+      "location": "[parameters('logicAppLocation')]",
+      "properties": {
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azureblob')]"
+        },
+        "displayName": "[parameters('azureblob_1_Connection_DisplayName')]",
+        "parameterValues": {
+          "accountName": "[parameters('azureblob_1_accountName')]",
+          "accessKey": "[parameters('azureblob_1_accessKey')]"
+        }
+      }
     },
     {
       "type": "MICROSOFT.WEB/CONNECTIONS",

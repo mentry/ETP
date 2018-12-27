@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "logicAppName": {
-      "value": "la-booking-etp-test"
+      "value": "la-bookingreceive-etp-test"
     },
     "logicAppLocation": {
       "value": "northeurope"
