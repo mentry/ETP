@@ -12,6 +12,7 @@ namespace ETP.Models
         public string StartLocation { get; set; }
         public string EndLocation { get; set; }
         public int Duration { get; set; }
-        
+        public int Places { get; set; }
+
     }
 }

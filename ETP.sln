@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ETP.AzureFunctions", "ETP.A
 EndProject
 Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "ETP.BookingLogicApp", "ETP.BookingLogicApp\ETP.BookingLogicApp.deployproj", "{8441102F-BA32-457E-A9AA-990770B583E1}"
 EndProject
-Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "ETP.BookingLogicAppReceive", "ETP.BookingLogicAppReceive\ETP.BookingLogicAppReceive.deployproj", "{07EBEEC7-DEF0-4DCA-A44C-7CA650E6A2CA}"
+Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "ETP.BookingReceivingLogicApp", "ETP.BookingReceivingLogicApp\ETP.BookingReceivingLogicApp.deployproj", "{81957562-E96C-4157-AA8D-DC77D963BF47}"
+EndProject
+Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "ETP.SbTopicLogicApp", "ETP.SbTopicLogicApp\ETP.SbTopicLogicApp.deployproj", "{DFD74A4C-16F2-4945-B388-F6C8284A9ED2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +31,14 @@ Global
 		{8441102F-BA32-457E-A9AA-990770B583E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8441102F-BA32-457E-A9AA-990770B583E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8441102F-BA32-457E-A9AA-990770B583E1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{07EBEEC7-DEF0-4DCA-A44C-7CA650E6A2CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{07EBEEC7-DEF0-4DCA-A44C-7CA650E6A2CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{07EBEEC7-DEF0-4DCA-A44C-7CA650E6A2CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{07EBEEC7-DEF0-4DCA-A44C-7CA650E6A2CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81957562-E96C-4157-AA8D-DC77D963BF47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81957562-E96C-4157-AA8D-DC77D963BF47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81957562-E96C-4157-AA8D-DC77D963BF47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81957562-E96C-4157-AA8D-DC77D963BF47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFD74A4C-16F2-4945-B388-F6C8284A9ED2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFD74A4C-16F2-4945-B388-F6C8284A9ED2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFD74A4C-16F2-4945-B388-F6C8284A9ED2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFD74A4C-16F2-4945-B388-F6C8284A9ED2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
